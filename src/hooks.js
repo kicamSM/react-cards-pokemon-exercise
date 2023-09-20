@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
-
+import uuid from "uuid";
 const useFlip = (initialState = false) => {
     const [state, setState] = useState(initialState);
     const flip = () => {
@@ -110,31 +110,75 @@ const useFlip = (initialState = false) => {
 //   }
   
 
-  function useAxios(url) {
+//   function useAxios(url) {
+//     const [data, setData] = useState([]);
+  
+//     // useEffect(() => {
+
+//     async function fetchData() {
+//         const response = await axios.get(url)
+//         // console.log("response:", response);
+//         setData(response)
+//     }
+
+
+//     // }, [url]);
+
+//     // const addDataItem = (newDataItem) => {
+//     //   setData([...data, newDataItem]);
+//     // };
+//     console.log("fetchData in useAxios:", data)
+
+//     // setCards(cards => [...cards, { ...data, id: uuid() }]);
+
+//     return [data, fetchData];
+//   }
+  
+//   function useAxios(baseUrl) {
+//     // const [responses, setResponses] = useLocalStorage(keyInLS);
+//     const [responses, setResponses] = useState();
+
+//     // const addResponseData = async (formatter = data => data, restOfUrl = "") => {
+//     //   const response = await axios.get(`${baseUrl}${restOfUrl}`);
+//     //   setResponses(data => [...data, formatter(response.data)]);
+//     // };
+//     function formatCard(data) {
+//         return {
+//           image: data.cards[0].image,
+//           id: uuid()
+//         };
+//     }
+
+//     const addResponseData = async function(formatCard = function(data) { return data; }, restOfUrl = "") {
+//         const response = await axios.get(`${baseUrl}${restOfUrl}`);
+//         setResponses(function(data) { return [...data, formatCard(response.data)]; });
+//       };
+  
+//     // const clearResponses = () => setResponses([]);
+  
+//     return [addResponseData];
+//     // return [responses, addResponseData, clearResponses];
+//   }
+
+// ****************************************************************
+
+function useAxios(url) {
     const [data, setData] = useState([]);
   
-    // useEffect(() => {
-
     async function fetchData() {
         const response = await axios.get(url)
-        // console.log("response:", response);
-        setData(response)
+        console.log("response:", response);
+
+        setData(response.data.cards)
+        // ! This is a returning a new card from a new deck so the deck id is not sticking around 
     }
-
-
-    // }, [url]);
-
-    // const addDataItem = (newDataItem) => {
-    //   setData([...data, newDataItem]);
-    // };
+  
+  
     console.log("fetchData in useAxios:", data)
-
-    // setCards(cards => [...cards, { ...data, id: uuid() }]);
-
+  
+  
     return [data, fetchData];
   }
-  
-  
 
 
 export { useFlip, useAxios }

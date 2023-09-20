@@ -52,39 +52,77 @@ import {useAxios} from './hooks'
   //   "https://deckofcardsapi.com/api/deck/new/draw/"
   // );
 
-function CardTable() {
-    const [cards, setCards] = useState([]);
+// function CardTable() {
+//     const [cards, setCards] = useState([]);
 
-  const [data, fetchData] = useAxios("https://deckofcardsapi.com/api/deck/new/draw/") 
+//   const [data, fetchData] = useAxios("https://deckofcardsapi.com/api/deck/new/draw/") 
 
-  console.log("fetchData in CardTable:", fetchData)
-  console.log("data in CardTable:", data)
+//   console.log("fetchData in CardTable:", fetchData)
+//   console.log("data in CardTable:", data)
 
 //  console.log("useAxios:", useAxios())
-useEffect(() => {
-async function addCard() {
-  // const response = await data
-// console.log("fetchData in addCard:", fetchData)
-//  const response = await fetchData() 
-// console.log("data inside addCard:", data)
-  // console.log("!!!!!!!!!!!response:", JSON.stringify(response))
-  // console.log("response.data", response.data)
-  // console.log("cards:", cards)
-  setCards(cards => [...cards, { ...data, id: uuid() }]);
-}
-  addCard();
-}, [cards]);
+// useEffect(() => {
+// async function addCard() {
+//   // const response = await data
+// // console.log("fetchData in addCard:", fetchData)
+// //  const response = await fetchData() 
+// // console.log("data inside addCard:", data)
+//   // console.log("!!!!!!!!!!!response:", JSON.stringify(response))
+//   // console.log("response.data", response.data)
+//   // console.log("cards:", cards)
+//   setCards(cards => [...cards, { ...data, id: uuid() }]);
+// }
+//   addCard();
+// }, [cards]);
+
+//   return (
+//     <div className="PlayingCardList">
+//       <h3>Pick a card, any card!</h3>
+//       <div>
+//         {/* <button onClick={addCard}>Add a playing card!</button> */}
+//         <button onClick={fetchData}>Add a playing card!</button>
+//       </div>
+//       <div className="PlayingCardList-card-area">
+//         {cards.map(cardData => (
+//           <PlayingCard key={cardData.id} front={cardData.cards[0].image} />
+//         ))}
+//       </div>
+//     </div>
+//   );
+// }
+
+function CardTable() {
+  const [deckId, setDeckId] = useState()
+  // * using state to set the deckId also
+  const [data, fetchData] = useAxios(`https://deckofcardsapi.com/api/deck/${deckId}/draw/`) 
+  // const [data, fetchData] = useAxios(`https://deckofcardsapi.com/api/deck/new/draw/`);
+
+  // console.log("fetchData in CardTable:", fetchData)
+  // console.log("data in CardTable:", data)
+
+  useEffect(() => {
+    // * if deckId is false then set axios.get to new and then set the deckId
+    if (!deckId) {
+      // Create a new deck and get the deck ID.
+      const createDeck = async () => {
+        const response = await axios.get('https://deckofcardsapi.com/api/deck/new/');
+        // console.log("response.data.deck_id", response.data.deck_id)
+        setDeckId(response.data.deck_id);
+      };
+
+      createDeck();
+    }
+  }, [deckId]);
 
   return (
     <div className="PlayingCardList">
       <h3>Pick a card, any card!</h3>
       <div>
-        {/* <button onClick={addCard}>Add a playing card!</button> */}
         <button onClick={fetchData}>Add a playing card!</button>
       </div>
       <div className="PlayingCardList-card-area">
-        {cards.map(cardData => (
-          <PlayingCard key={cardData.id} front={cardData.cards[0].image} />
+        {data.map(cardData => (
+          <PlayingCard key={cardData.code} front={cardData.images.svg} />
         ))}
       </div>
     </div>
