@@ -16,7 +16,7 @@ function PlayingCard({ front, back = backOfCard }) {
       alt="playing card"
       // onClick={flipCard}
       onClick={toggleIsFacingUp}
-      className="PlayingCard Card"
+      className="PlayingCard-Card"
     />
   );
 }

@@ -122,7 +122,7 @@ function CardTable() {
       </div>
       <div className="PlayingCardList-card-area">
         {data.map(cardData => (
-          <PlayingCard key={cardData.code} front={cardData.images.svg} />
+          <div className="PlayingCard-Card-Container"><PlayingCard key={cardData.code} front={cardData.images.svg} style={{width: '300px', height: '500px'}} className="PlayingCard-Card" /></div>
         ))}
       </div>
     </div>

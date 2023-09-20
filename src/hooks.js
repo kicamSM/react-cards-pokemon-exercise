@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import uuid from "uuid";
+
+
 const useFlip = (initialState = false) => {
     const [state, setState] = useState(initialState);
     const flip = () => {
@@ -168,13 +170,14 @@ function useAxios(url) {
     async function fetchData() {
         const response = await axios.get(url)
         console.log("response:", response);
-
-        setData(response.data.cards)
-        // ! This is a returning a new card from a new deck so the deck id is not sticking around 
+        const newData = [...data, response.data.cards[0]]
+        // setData(response.data.cards)
+        // !This is setting the data as the new data so includes old cards as well.
+        setData(newData)
     }
   
   
-    console.log("fetchData in useAxios:", data)
+    console.log("$$$$$fetchData in useAxios:", data)
   
   
     return [data, fetchData];
